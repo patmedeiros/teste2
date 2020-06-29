@@ -1,15 +1,13 @@
 name: Mirroring
-
-on: [push, delete]
+on: [ push, delete, create ]
 
 jobs:
-  to_bitbucket:
-    runs-on: ubuntu-18.04
+  git-mirror:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: pixta-dev/repository-mirroring-action@v1
-      with:
-        target_repo_url:
-          patriciamedeiros@bitbucket.org:patriciamedeiros/teste.git
-        ssh_private_key:
-          ${{ secrets.SSH_PRIVATE_KEY }}
+      - uses: wearerequired/git-mirror-action@v1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        with:
+          source-repo: 'git@github.com:patmedeiros/teste2.git'
+          destination-repo: 'git@bitbucket.org:patriciamedeiros/teste.git'
