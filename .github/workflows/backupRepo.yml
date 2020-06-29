@@ -1,13 +1,14 @@
 name: Mirroring
-on: [ push, delete, create ]
-
+on: push
 jobs:
-  git-mirror:
+  repo-sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: wearerequired/git-mirror-action@v1
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        with:
-          source-repo: 'git@github.com:patmedeiros/teste2.git'
-          destination-repo: 'git@github.com:patmedeiros/teste.git'
+    - name: repo-sync
+      uses: wei/git-sync@v2
+      with:
+        source_repo: "git@github.com:patmedeiros/teste2.git"
+        source_branch: "master"
+        destination_repo: "git@bitbucket.org:patriciamedeiros/teste.git"
+        destination_branch: "master"
+        ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
